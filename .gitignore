@@ -1,0 +1,9 @@
+/bin
+/obj
+/.vs
+src/bin
+src/obj
+src/.vs
+src/git-credential-keepasscommand/bin
+src/git-credential-keepasscommand/obj
+src/git-credential-keepasscommand/.vs
