@@ -9,7 +9,7 @@ namespace git_credential_keepasscommand
 {
     class Program
     {
-        private static void ShowHelp()
+        private static ExitCode ShowHelp()
         {
             StringBuilder sb = new StringBuilder();
 
@@ -98,6 +98,7 @@ namespace git_credential_keepasscommand
 
             Console.WriteLine();
             Console.Write(sb.ToString());
+            return ExitCode.ShowHelp;
         }
 
         private static void WriteError(string message)
@@ -178,7 +179,7 @@ namespace git_credential_keepasscommand
             return null;
         }
 
-        private static void CredentialHelperCommandGet()
+        private static ExitCode CredentialHelperCommandGet()
         {
             //stdin contains input as name = value pairs.
             //return via stdout 2 lines when found
@@ -187,106 +188,156 @@ namespace git_credential_keepasscommand
 
             try
             {
-                var input = GetStdinNamesValues();
                 NameValue curname = null;
-                foreach (var item in input)
+                try
                 {
-                    var name = item.Name.ToLowerInvariant();
-                    if (name == "__currentname__")
+                    var input = GetStdinNamesValues();
+                    foreach (var item in input)
                     {
-                        curname = item;
+                        var name = item.Name.ToLowerInvariant();
+                        if (name == "__currentname__")
+                        {
+                            curname = item;
+                        }
                     }
+
+                    if (curname == null)
+                    {
+                        StringBuilder message = new StringBuilder();
+                        message.AppendLine("GIT failed to provide enough information:");
+                        foreach (var item in input)
+                        {
+                            message.AppendLine(item.Name + "=" + item.Value);
+                        }
+
+                        WriteError(message.ToString());
+                        return ExitCode.GitInputError;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    WriteError(ex.ToString());
+                    return ExitCode.GitInputError;
                 }
 
                 ApiGetResponse found = null;
-                if (curname != null)
+                try
                 {
                     string title = "git [" + curname.Value.ToLowerInvariant() + "]";
                     found = QueryKeePass(title);
-                    if (found != null)
+
+                    if (found == null)
                     {
-                        Console.Out.Write("username=" + found.Username + "\n");
-                        Console.Out.Write("password=" + found.Password + "\n");
+                        //WriteError() is already done in QuerykeePass()
+                        return ExitCode.KeePassEntryNotFound;
                     }
                 }
-                else
+                catch (Exception ex)
                 {
-                    StringBuilder message = new StringBuilder();
-                    message.AppendLine("GIT failed to provide protocol=, host= and optional username= values");
-                    foreach (var item in input)
-                    {
-                        message.AppendLine(item.Name + "=" + item.Value);
-                    }
-
-                    WriteError(message.ToString());
+                    WriteError(ex.ToString());
+                    return ExitCode.KeePassError;
                 }
+
+                Console.Out.Write("username=" + found.Username + "\n");
+                Console.Out.Write("password=" + found.Password + "\n");
+                return ExitCode.Success;
             }
             catch (Exception ex)
             {
                 WriteError(ex.ToString());
+                return ExitCode.UnknownError;
             }
         }
 
-        private static void CredentialHelperCommandStore()
+        private static ExitCode CredentialHelperCommandStore()
         {
             //stdin contains input as name = value pairs.
             //no output needed
 
             try
             {
-                var input = GetStdinNamesValues();
+                //var input = GetStdinNamesValues();
                 //ignore command
+
+                return ExitCode.Success;
             }
             catch (Exception ex)
             {
                 WriteError(ex.ToString());
+                return ExitCode.UnknownError;
             }
         }
 
-        private static void CredentialHelperCommandErase()
+        private static ExitCode CredentialHelperCommandErase()
         {
             //stdin contains input as name = value pairs.
             //no output needed
 
             try
             {
-                var input = GetStdinNamesValues();
+                //var input = GetStdinNamesValues();
                 //ignore command
+
+                return ExitCode.Success;
             }
             catch (Exception ex)
             {
                 WriteError(ex.ToString());
+                return ExitCode.UnknownError;
             }
+        }
+
+        enum ExitCode : int
+        {
+            Success = 0,
+            GitInputError = 1,
+            KeePassError = 2,
+            KeePassEntryNotFound = 3,
+            UnknownCommand = 97,
+            ShowHelp = 98,
+            UnknownError = 99
         }
 
         static void Main(string[] args)
         {
+            ExitCode exitcode;
+
             try
             {
-                if (args.Length == 0)
-                {
-                    ShowHelp();
-                    return;
-                }
+                string command;
+                if (args.Length > 0)
+                    command = args[0].ToLowerInvariant();
+                else
+                    command = "help";
 
-                string command = args[0].ToLowerInvariant();
                 if (command == "get")
                 {
-                    CredentialHelperCommandGet();
+                    exitcode = CredentialHelperCommandGet();
                 }
                 else if (command == "store")
                 {
-                    CredentialHelperCommandStore();
+                    exitcode = CredentialHelperCommandStore();
                 }
                 else if (command == "erase")
                 {
-                    CredentialHelperCommandErase();
+                    exitcode = CredentialHelperCommandErase();
+                }
+                else if (command == "help")
+                {
+                    exitcode = ShowHelp();
+                }
+                else
+                {
+                    exitcode = ExitCode.UnknownCommand;
                 }
             }
             catch (Exception ex)
             {
                 WriteError(ex.ToString());
+                exitcode = ExitCode.UnknownError;
             }
+
+            Environment.Exit((int)exitcode);
         }
     }
 }
