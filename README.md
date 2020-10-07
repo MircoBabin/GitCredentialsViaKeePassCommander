@@ -1,3 +1,6 @@
+[![Github All Releases](https://img.shields.io/github/downloads/MircoBabin/GitCredentialsViaKeePassCommander/total)](https://github.com/MircoBabin/GitCredentialsViaKeePassCommander/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/MircoBabin/GitCredentialsViaKeePassCommander/blob/master/LICENSE.md)
+
 # Git Credentials via KeePassCommander
 It's purpose is to retrieve username/password credentials for GIT from [KeePass password store](https://keepass.info/ "KeePass") using plugin [KeePassCommander](https://github.com/MircoBabin/KeePassCommander "KeePassCommander").
 
