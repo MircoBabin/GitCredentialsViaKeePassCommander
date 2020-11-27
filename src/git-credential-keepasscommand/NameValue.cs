@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace git_credential_keepasscommand
+﻿namespace git_credential_keepasscommand
 {
     public class NameValue
     {
-        public string Name { get; set; }
-        public string Value { get; set; }
+        public string Name { get; }
+        public string Value { get; }
 
         public NameValue(string Name, string Value)
         {

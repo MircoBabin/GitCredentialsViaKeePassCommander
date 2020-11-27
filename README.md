@@ -16,7 +16,7 @@ The minimum .NET framework required is 4.0.
 Execute **git-credential-keepasscommand.exe** without parameters to view the help.
 
 ```
-git-credential-keepasscommand 1.0
+git-credential-keepasscommand 1.2
 https://github.com/MircoBabin/GitCredentialsViaKeePassCommander - MIT license
 
 git-credential-keepasscommand.exe is a credential helper for GIT.
@@ -25,7 +25,7 @@ It's purpose is to retrieve username/password credentials for GIT from KeePass u
 INSTALLATION:
 *** Place executable and config in same directory as KeePassCommandDll.dll
 *** See KeePassCommander at https://github.com/MircoBabin/KeePassCommander
-git config --global credential.helper "D:/Projects/GitCredentialsViaKeePassCommander/bin/Release/git-credential-keepasscommand.exe"
+git config --global credential.helper "D:/KeePass/git-credential-keepasscommand.exe"
 git config --system --list --show-origin
 if there still is a credential.helper=manager listed, remove that
 e.g. from C:/Program Files/Git/mingw64/etc/gitconfig remove [credential] helper=manager
@@ -34,8 +34,16 @@ UNINSTALL:
 git config --global credential.helper manager
 
 KeePass ENTRY:
-In KeePass an entry containing username and password should be present with the following case-sensitive title (without quotes): "git [...lowercase last part of directoryname...]".
-e.g. the rootdirectory of the GIT project is d:\projects\GitCredentialsViaKeePassCommander, then the KeePass title is exactly "git [gitcredentialsviakeepasscommander]
+In KeePass an entry containing username and password should be present with the following case-sensitive title (without quotes): "git [...lowercase last part of directoryname...][...lowercase computername...]".
+If this entry is not found, the following case-sensitive title (without quotes) should be present: "git [...lowercase last part of directoryname...]".
+
+e.g. The rootdirectory of the GIT project is
+     d:\projects\GitCredentialsViaKeePassCommander
+     And the computername is MIRCONB.
+
+     Then the KeePass title must be exactly (without quotes):
+     "git [gitcredentialsviakeepasscommander][mirconb]", or
+     "git [gitcredentialsviakeepasscommander]".
 
 ```
 
@@ -47,9 +55,9 @@ e.g. the rootdirectory of the GIT project is d:\projects\GitCredentialsViaKeePas
 
 # Entries in KeePass
 
-Each project (GIT rootdirectory) must have an entry in KeePass. The title of the entry should be ```git [...lowercase last part of directoryname...]```. And the entry should contain the username and password to login.
+Each project (GIT rootdirectory) must have an entry in KeePass. The title of the entry should be ```git [...lowercase last part of directoryname...][...lowercase computername...]``` or ```git [...lowercase last part of directoryname...]```. And the entry should contain the username and password to login.
 
-E.g. the root of the GIT project is d:\projects\webpage\myportals (containing the subdirectory .git) then the title of the entry is ```git [myportals]```.
+E.g. the root of the GIT project is d:\projects\webpage\myportals (containing the subdirectory .git) and the computername is mirconb then the title of the entry is ```git [myportals][mirconb]``` or ```git [myportals]```.
 
 ![ScreenshotEntries](screenshotentries.png)
 
