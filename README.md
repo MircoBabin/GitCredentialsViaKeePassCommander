@@ -11,6 +11,8 @@ Download the zip and unpack it in the KeePassCommander directory where KeePassCo
 
 The minimum .NET framework required is 4.0.
 
+*For unattended automatic installation scripts, read the section "Automatic installation scripts" lower down the page.*
+
 # Help
 
 Execute **git-credential-keepasscommand.exe** without parameters to view the help.
@@ -71,6 +73,14 @@ E.g. the root of the GIT project is d:\projects\webpage\myportals (containing th
 The default git credential "manager" stores passwords in the Windows Credential Manager. I don't want passwords to be stored in Windows, I want all my passwords stored in KeePass.
 
 So I build git-credential-keepasscommand.exe which uses KeePassCommander to retrieve credentials from KeePass.
+
+# Automatic installation scripts
+For unattended installation scripts the following flow can be used for the latest version:
+
+1) Download https://github.com/MircoBabin/GitCredentialsViaKeePassCommander/releases/latest/download/release.download.zip.url-location
+2) Read the text of this file into **latest-download-url**. The file only contains an url, so the encoding is ASCII. *The encoding UTF-8 may also be used to read the file, because ASCII is UTF-8 encoding.*
+3) Download the zip from the **latest-download-url** to local file **GitCredentialsViaKeePassCommander.zip**. *Each release carries the version number in the filename. To prevent not knowing the downloaded filename, download to a fixed local filename.*
+4) Unpack the downloaded **GitCredentialsViaKeePassCommander.zip** in the KeePassCommander directory where KeePassCommandDll.dll is located.
 
 # Contributions
 Contributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md "contributing") before making any contribution!

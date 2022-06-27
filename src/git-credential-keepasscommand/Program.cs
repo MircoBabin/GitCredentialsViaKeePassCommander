@@ -5,6 +5,11 @@ namespace git_credential_keepasscommand
 {
     class Program
     {
+        private static Version GetVersion()
+        {
+            return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+        }
+
         private static ProgramExitCode CredentialHelperCommandGet()
         {
             //stdin contains input as name = value pairs.
@@ -95,6 +100,13 @@ namespace git_credential_keepasscommand
                     command = args[0].ToLowerInvariant();
                 else
                     command = "help";
+
+                if (args.Length == 1 && args[0].ToLower() == "--version")
+                {
+                    var version = GetVersion();
+                    Console.Write(version.Major + "." + version.Minor);
+                    return;
+                }
 
                 if (command == "get")
                 {
