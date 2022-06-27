@@ -18,7 +18,7 @@ The minimum .NET framework required is 4.0.
 Execute **git-credential-keepasscommand.exe** without parameters to view the help.
 
 ```
-git-credential-keepasscommand 1.2
+git-credential-keepasscommand 1.3
 https://github.com/MircoBabin/GitCredentialsViaKeePassCommander - MIT license
 
 git-credential-keepasscommand.exe is a credential helper for GIT.
