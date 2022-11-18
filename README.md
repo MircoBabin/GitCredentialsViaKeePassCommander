@@ -7,7 +7,7 @@ It's purpose is to retrieve username/password credentials for GIT from [KeePass 
 # Download binary
 For Windows (.NET framework 4), [the latest version can be found here](https://github.com/MircoBabin/GitCredentialsViaKeePassCommander/releases/latest "Lastest Version").
 
-Download the zip and unpack it in the KeePassCommander directory where KeePassCommandDll.dll is located.
+Download the zip and unpack it in the [KeePassCommander](https://github.com/MircoBabin/KeePassCommander "KeePassCommander") directory where KeePassCommandDll.dll is located.
 
 The minimum .NET framework required is 4.0.
 
@@ -72,7 +72,7 @@ E.g. the root of the GIT project is d:\projects\webpage\myportals (containing th
 # Why
 The default git credential "manager" stores passwords in the Windows Credential Manager. I don't want passwords to be stored in Windows, I want all my passwords stored in KeePass.
 
-So I build git-credential-keepasscommand.exe which uses KeePassCommander to retrieve credentials from KeePass.
+So I build git-credential-keepasscommand.exe which uses [KeePassCommander](https://github.com/MircoBabin/KeePassCommander "KeePassCommander") to retrieve credentials from KeePass.
 
 # Automatic installation scripts
 For unattended installation scripts the following flow can be used for the latest version:
